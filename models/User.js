@@ -1,4 +1,3 @@
-const req = require("express/lib/request");
 const mongoose = require("mongoose");
 
 const validateEmail = function (email) {
@@ -8,7 +7,7 @@ const validateEmail = function (email) {
 };
 
 // Schema
-const userSchema = mongoose.Schema({
+const userSchema = new mongoose.Schema({
   username: {
     type: String,
     required: "Username is required",
@@ -22,18 +21,18 @@ const userSchema = mongoose.Schema({
     trim: true,
     validate: [validateEmail, "Please fill a valid email address"],
   },
-  thoughts: [
-    {
-      type: mongoose.Schema.Types.ObjectId, //confirm
-      ref: "Thought",
-    },
-  ],
-  friends: [
-    {
-      type: mongoose.Schema.Types.ObjectId, //confirm
-      ref: "User",
-    },
-  ],
+  // thoughts: [
+  //   {
+  //     type: mongoose.Schema.Types.ObjectId, //confirm
+  //     ref: "Thought",
+  //   },
+  // ],
+  // friends: [
+  //   {
+  //     type: mongoose.Schema.Types.ObjectId, //confirm
+  //     ref: "User",
+  //   },
+  // ],
 });
 // Create model
 const User = mongoose.model("User", userSchema);

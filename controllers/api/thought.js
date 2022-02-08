@@ -2,7 +2,6 @@ const thoughtRoute = require("express").Router();
 const { Thought } = require("../../models");
 
 // get all the thoughts using get request
-
 thoughtRoute.get("/", async (req, res) => {
   try {
     const thoughts = await Thought.find({});
@@ -19,7 +18,6 @@ thoughtRoute.get("/", async (req, res) => {
 });
 
 // get one thought using get request
-
 thoughtRoute.get("/:id", async (req, res) => {
   try {
     const thought = await Thought.find({ _id: req.params.id });
@@ -36,7 +34,6 @@ thoughtRoute.get("/:id", async (req, res) => {
 });
 
 // create one thought using post request and create method
-
 thoughtRoute.post("/", async (req, res) => {
   try {
     const newThought = await Thought.create({

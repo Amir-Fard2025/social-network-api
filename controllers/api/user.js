@@ -41,4 +41,23 @@ userRoute.post("/", async (req, res) => {
   }
 });
 
+// delete one user using  delete request and findOneAndRemove method
+userRoute.delete("/:id", async (req, res) => {
+  try {
+    const user = await User.findOneAndRemove({
+      _id: req.params.id,
+    });
+    if (!user) {
+      res.status(404).json({ message: "There is no thought with this id" });
+    } else {
+      res.json({ message: "User has been deleted successfully" });
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).send({
+      msg: "error happening while deleting the thought using its unique id",
+    });
+  }
+});
+
 module.exports = userRoute;

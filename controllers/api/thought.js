@@ -12,7 +12,9 @@ thoughtRoute.get("/", async (req, res) => {
     });
   } catch (err) {
     console.log(err);
-    res.status(500).send({ msg: "error happening while geting all thoughts " });
+    res
+      .status(500)
+      .send({ msg: "error happening while getting all thoughts " });
   }
 });
 
@@ -29,7 +31,7 @@ thoughtRoute.get("/:id", async (req, res) => {
     console.log(err);
     res
       .status(500)
-      .send({ msg: "error happening while geting thought by its id " });
+      .send({ msg: "error happening while getting thought by its id " });
   }
 });
 
@@ -47,6 +49,25 @@ thoughtRoute.post("/", async (req, res) => {
   } catch (err) {
     console.log(err);
     res.status(500).send({ msg: "error happening while posting a new user" });
+  }
+});
+
+// delete one thought using  delete request and findOneAndRemove method
+thoughtRoute.delete("/:id", async (req, res) => {
+  try {
+    const thought = await Thought.findOneAndRemove({
+      _id: req.params.id,
+    });
+    if (!thought) {
+      res.status(404).json({ message: "There is no thought with this id" });
+    } else {
+      res.json({ message: "Thought has been deleted successfully" });
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).send({
+      msg: "error happening while deleting the thought using its unique id",
+    });
   }
 });
 

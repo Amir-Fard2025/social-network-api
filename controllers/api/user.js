@@ -21,7 +21,7 @@ userRoute.get("/:id", async (req, res) => {
     console.log(err);
     res
       .status(500)
-      .send({ msg: "error happening while retrieving data from data base" });
+      .send({ msg: "error happening while getting the user by its id" });
   }
 });
 

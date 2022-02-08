@@ -55,7 +55,31 @@ userRoute.delete("/:id", async (req, res) => {
   } catch (err) {
     console.log(err);
     res.status(500).send({
-      msg: "error happening while deleting the thought using its unique id",
+      msg: "error happening while deleting the user using its unique id",
+    });
+  }
+});
+// update one user using put request and findOneAndUpdate method
+userRoute.put("/:id", async (req, res) => {
+  try {
+    const newUser = await User.findOneAndUpdate({
+      _id: req.params.userId,
+      $set: req.body,
+      runValidators: true,
+      new: true,
+    });
+    if (!newUser) {
+      res.json({ msg: "The user with such an id is not available" });
+    } else {
+      res.json({
+        newUser,
+        msg: "The user's data has successfully updated",
+      });
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).send({
+      msg: "error happening while updating the user using its unique id ",
     });
   }
 });

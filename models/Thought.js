@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
+const moment = require("moment");
 // To Do: use moment.js to format time
 const myGetTime = (dateTime) => {
+  moment().format("MMMM Do YYYY, h:mm:ss a");
   return dateTime;
 };
 // Define reactionsSchema
@@ -33,15 +35,15 @@ const thoughtsSchema = new mongoose.Schema({
     minlength: 4,
     default: "Unnamed text",
   },
-  // createdAt: {
-  //   type: Date,
-  //   default: Date.now,
-  //   get: (dateTime) => myGetTime(dateTime),
-  // },
-  // username: {
-  //   type: String,
-  //   required: true,
-  // },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+    // get: (dateTime) => myGetTime(dateTime),
+  },
+  username: {
+    type: String,
+    required: true,
+  },
   // reactions: [reactionSchema],
 });
 

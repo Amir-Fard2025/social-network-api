@@ -27,12 +27,12 @@ const userSchema = new mongoose.Schema({
       ref: "Thought",
     },
   ],
-  // friends: [
-  //   {
-  //     type: mongoose.Schema.Types.ObjectId, //confirm
-  //     ref: "User",
-  //   },
-  // ],
+  friends: [
+    {
+      type: mongoose.Schema.Types.ObjectId, //confirm
+      ref: "User",
+    },
+  ],
 });
 // Create model
 const User = mongoose.model("User", userSchema);

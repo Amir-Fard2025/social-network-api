@@ -79,4 +79,24 @@ userRoute.put("/:id", async (req, res) => {
     });
   }
 });
+// create a user's friend using post request
+userRoute.post("/:friends/friendsId", async (req, res) => {
+  try {
+    const user = await User.findOneAndUpdate(
+      { _id: req.params.userId },
+      { $addToSet: { friends: req.body } },
+      { runValidators: true, new: true }
+    );
+    if (!user) {
+      res.status(404).json({ msg: "The user with such an id doesn't exist" });
+    } else {
+      res.json(user);
+    }
+  } catch (err) {
+    console.log(err);
+    res
+      .status(500)
+      .send({ msg: "error happening while creating a new friend" });
+  }
+});
 module.exports = userRoute;

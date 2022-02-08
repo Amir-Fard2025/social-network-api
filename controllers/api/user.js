@@ -1,6 +1,5 @@
 const userRoute = require("express").Router();
 const { User } = require("../../models");
-
 // get all users using get request
 userRoute.get("/", async (req, res) => {
   try {
@@ -11,7 +10,6 @@ userRoute.get("/", async (req, res) => {
     res.status(500).send({ msg: "error happening while geting all the users" });
   }
 });
-
 // get one user using get request by id
 userRoute.get("/:id", async (req, res) => {
   try {
@@ -24,7 +22,6 @@ userRoute.get("/:id", async (req, res) => {
       .send({ msg: "error happening while getting the user by its id" });
   }
 });
-
 // create a one user using post request
 userRoute.post("/", async (req, res) => {
   try {
@@ -40,7 +37,6 @@ userRoute.post("/", async (req, res) => {
     res.status(500).send({ msg: "error happening while posting a new user" });
   }
 });
-
 // delete one user using  delete request and findOneAndRemove method
 userRoute.delete("/:id", async (req, res) => {
   try {
@@ -73,7 +69,7 @@ userRoute.put("/:id", async (req, res) => {
     } else {
       res.json({
         newUser,
-        msg: "The user's data has successfully updated",
+        msg: "The user's data has been successfully updated",
       });
     }
   } catch (err) {
@@ -83,5 +79,4 @@ userRoute.put("/:id", async (req, res) => {
     });
   }
 });
-
 module.exports = userRoute;

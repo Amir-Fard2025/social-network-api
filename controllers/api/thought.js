@@ -1,6 +1,5 @@
 const thoughtRoute = require("express").Router();
 const { Thought } = require("../../models");
-
 // get all the thoughts using get request
 thoughtRoute.get("/", async (req, res) => {
   try {
@@ -16,7 +15,6 @@ thoughtRoute.get("/", async (req, res) => {
       .send({ msg: "error happening while getting all thoughts " });
   }
 });
-
 // get one thought using get request
 thoughtRoute.get("/:id", async (req, res) => {
   try {
@@ -32,7 +30,6 @@ thoughtRoute.get("/:id", async (req, res) => {
       .send({ msg: "error happening while getting thought by its id " });
   }
 });
-
 // create one thought using post request and create method
 thoughtRoute.post("/", async (req, res) => {
   try {
@@ -48,7 +45,6 @@ thoughtRoute.post("/", async (req, res) => {
     res.status(500).send({ msg: "error happening while posting a new user" });
   }
 });
-
 // delete one thought using  delete request and findOneAndRemove method
 thoughtRoute.delete("/:id", async (req, res) => {
   try {
@@ -67,5 +63,28 @@ thoughtRoute.delete("/:id", async (req, res) => {
     });
   }
 });
-
+// update one thought using put request and findOneAndUpdate method
+thoughtRoute.put("/:id", async (req, res) => {
+  try {
+    const newThought = await Thought.findOneAndUpdate({
+      _id: req.params.thoughtId,
+      $set: req.body,
+      runValidators: true,
+      new: true,
+    });
+    if (!newThought) {
+      res.json({ msg: "The thought with such an id is not available" });
+    } else {
+      res.json({
+        newThought,
+        msg: "The thought's data has been successfully updated",
+      });
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).send({
+      msg: "error happening while updating the thought using its unique id",
+    });
+  }
+});
 module.exports = thoughtRoute;

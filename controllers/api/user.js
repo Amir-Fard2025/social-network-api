@@ -8,17 +8,15 @@ userRoute.get("/", async (req, res) => {
     res.json({ users });
   } catch (err) {
     console.log(err);
-    res
-      .status(500)
-      .send({ msg: "error happening while retrieving data from data base" });
+    res.status(500).send({ msg: "error happening while geting all the users" });
   }
 });
 
 // get one user using get request by id
 userRoute.get("/:id", async (req, res) => {
   try {
-    const users = await User.find({ _id: req.params.id });
-    res.json({ users });
+    const user = await User.find({ _id: req.params.id });
+    res.json({ user });
   } catch (err) {
     console.log(err);
     res
@@ -33,12 +31,13 @@ userRoute.post("/", async (req, res) => {
     const newUser = await User.create({
       ...req.body,
     });
-    res.json({ newUser, msg: "you will recieve a list of users" });
+    res.json({
+      newUser,
+      msg: "you will see the new user, you can check it in all users",
+    });
   } catch (err) {
     console.log(err);
-    res
-      .status(500)
-      .send({ msg: "error happening while retrieving data from data base" });
+    res.status(500).send({ msg: "error happening while posting a new user" });
   }
 });
 

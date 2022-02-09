@@ -1,5 +1,7 @@
 const thoughtRoute = require("express").Router();
 const { Thought } = require("../../models");
+const { User } = require("../../models");
+const userRoute = require("./user");
 // get all the thoughts using get request
 thoughtRoute.get("/", async (req, res) => {
   try {
@@ -36,6 +38,12 @@ thoughtRoute.post("/", async (req, res) => {
     const newThought = await Thought.create({
       ...req.body,
     });
+    if (newThought) {
+      await User.findOneAndUpdate(
+        { username: req.body.username },
+        { $addToSet: { thoughts: newThought._id } }
+      );
+    }
     res.json({
       newThought,
       msg: "you see the new user, you can check it in all users",
@@ -87,4 +95,5 @@ thoughtRoute.put("/:id", async (req, res) => {
     });
   }
 });
+
 module.exports = thoughtRoute;

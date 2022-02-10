@@ -34,7 +34,15 @@ const userSchema = new mongoose.Schema({
     },
   ],
 });
-// Create model
+
+// Create a virtual  property to get the amount of friends
+userSchema
+  .virtual("getFriends")
+  // Getter
+  .get(function () {
+    return this.friends.length;
+  });
+// Initialize our User model
 const User = mongoose.model("User", userSchema);
 
 module.exports = User;

@@ -71,7 +71,7 @@ thoughtRoute.delete("/:id", async (req, res) => {
     });
   }
 });
-// update one thought using put request and findOneAndUpdate method
+// Update one thought using put request and findOneAndUpdate method
 thoughtRoute.put("/:id", async (req, res) => {
   try {
     const newThought = await Thought.findOneAndUpdate({
@@ -95,5 +95,24 @@ thoughtRoute.put("/:id", async (req, res) => {
     });
   }
 });
-
+// Create a reaction using post request
+thoughtRoute.post("/:thoughtId/reactions", async (req, res) => {
+  try {
+    const newReaction = await Thought.findOneAndUpdate(
+      { _id: req.params.thoughtId },
+      { $addToSet: { reactions: req.body } }
+    );
+    const newId = req.params.thoughtId;
+    console.log(newId);
+    res.json({
+      newReaction,
+      msg: `A new Reaction has been added to the thought with this Id:${newId} `,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send({
+      msg: "error happening while creating a new reaction to a thougth",
+    });
+  }
+});
 module.exports = thoughtRoute;

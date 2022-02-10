@@ -104,4 +104,28 @@ userRoute.get("/:first/friends/:second", async (req, res) => {
       .send({ msg: "error happening while creating a new friend" });
   }
 });
+// delete a friend from friend's list
+userRoute.delete("/:first/friends/:second", async (req, res) => {
+  try {
+    const firstUser = await User.findOneAndUpdate(
+      { _id: req.params.first },
+      { $pull: { friends: req.params.second } },
+      { runValidators: true, new: true }
+    );
+    if (!firstUser) {
+      res.status(404).json({ msg: "A friend with such an Id doesn't exist" });
+    }
+    const secondUser = await User.findOneAndUpdate(
+      { _id: req.params.second },
+      { $pull: { friends: req.params.first } },
+      { runValidators: true, new: true }
+    );
+    res.json(secondUser);
+  } catch (err) {
+    console.log(err);
+    res
+      .status(500)
+      .send({ msg: "error happening while deleting a friend from the list" });
+  }
+});
 module.exports = userRoute;

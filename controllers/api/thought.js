@@ -115,4 +115,24 @@ thoughtRoute.post("/:thoughtId/reactions", async (req, res) => {
     });
   }
 });
+// Delete a reaction using delete request
+thoughtRoute.delete("/:thoughtId/reactions", async (req, res) => {
+  try {
+    const newReaction = await Thought.findOneAndUpdate(
+      { _id: req.params.thoughtId },
+      { $pull: { reactions: req.body } }
+    );
+    const newId = req.params.thoughtId;
+    console.log(newId);
+    res.json({
+      newReaction,
+      msg: `The Reaction has been deleted from thought with this Id:${newId} `,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send({
+      msg: "error happening while creating a new reaction to a thougth",
+    });
+  }
+});
 module.exports = thoughtRoute;

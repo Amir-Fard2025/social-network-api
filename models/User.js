@@ -7,39 +7,49 @@ const validateEmail = function (email) {
 };
 
 // Schema
-const userSchema = new mongoose.Schema({
-  username: {
-    type: String,
-    required: "Username is required",
-    unique: true,
-    trim: true,
-  },
-  email: {
-    type: String,
-    required: "Email address is required",
-    unique: true,
-    trim: true,
-    validate: [validateEmail, "Please fill a valid email address"],
-  },
-  thoughts: [
-    {
-      type: mongoose.Schema.Types.ObjectId, //confirm
-      ref: "Thought",
+const userSchema = new mongoose.Schema(
+  {
+    username: {
+      type: String,
+      required: "Username is required",
+      unique: true,
+      trim: true,
     },
-  ],
-  friends: [
-    {
-      type: mongoose.Schema.Types.ObjectId, //confirm
-      ref: "User",
+    email: {
+      type: String,
+      required: "Email address is required",
+      unique: true,
+      trim: true,
+      validate: [validateEmail, "Please fill a valid email address"],
     },
-  ],
-});
+    thoughts: [
+      {
+        type: mongoose.Schema.Types.ObjectId, //confirm
+        ref: "Thought",
+      },
+    ],
+    friends: [
+      {
+        type: mongoose.Schema.Types.ObjectId, //confirm
+        ref: "User",
+      },
+    ],
+  },
+  {
+    toJSON: {
+      virtuals: true,
+    },
+  }
+);
 
 // Create a virtual  property to get the amount of friends
 userSchema
-  .virtual("getFriends")
+  .virtual("numberOfFriends")
   // Getter
   .get(function () {
+    if (!this.friends) {
+      return 0;
+    }
     return this.friends.length;
   });
 // Initialize our User model
